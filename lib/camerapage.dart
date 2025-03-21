@@ -20,19 +20,13 @@ class _CameraPageState extends State<CameraPage> {
             Navigator.of(context).pop(image);
           }, messageBuilder: (context, face) {
             if (face == null) {
-              return _message('Tempatkan wajah anda pada kamera');
+              return _message('Position your face in front of the camera.');
             }
             if (!face.wellPositioned) {
-              return _message('Posisikan wajah anda dengan baik');
+              return _message('Position your face properly');
             }
-            // if (!face.isMouthOpen) {
-            //   return _message('Buka dan tutup mulut anda');
-            // }
-            // if (!face.isBlinking) {
-            //   return _message('Kedipkan kedua mata anda');
-            // }
             if (!face.isSmiling) {
-              return _message('Silahkan senyum');
+              return _message('Please smile');
             }
             return const SizedBox.shrink();
           });
@@ -40,12 +34,13 @@ class _CameraPageState extends State<CameraPage> {
         SizedBox(
           height: 50,
           child: Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
               backgroundColor: Colors.transparent,
-              appBar: AppBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                title: const Text(''),
-              )),
+              elevation: 0,
+              title: const Text(''),
+            ),
+          ),
         )
       ],
     );

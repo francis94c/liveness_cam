@@ -28,23 +28,17 @@ class FaceIdentifier {
 
     final planeData = cameraImage.planes.map(
       (Plane plane) {
-        return InputImagePlaneMetadata(
-          bytesPerRow: plane.bytesPerRow,
-          height: plane.height,
-          width: plane.width,
-        );
+        return InputImageMetadata(
+            bytesPerRow: plane.bytesPerRow,
+            size: Size(
+                plane.width?.toDouble() ?? 0, plane.height?.toDouble() ?? 0),
+            rotation: InputImageRotation.rotation0deg,
+            format: InputImageFormat.nv21);
       },
     ).toList();
 
-    final inputImageData = InputImageData(
-      size: imageSize,
-      imageRotation: imageRotation,
-      inputImageFormat: inputImageFormat,
-      planeData: planeData,
-    );
-
     final visionImage =
-        InputImage.fromBytes(bytes: bytes, inputImageData: inputImageData);
+        InputImage.fromBytes(bytes: bytes, metadata: planeData.first);
     DetectedFace? result;
     final face = await _detectFace(visionImage: visionImage);
     if (face != null) {
