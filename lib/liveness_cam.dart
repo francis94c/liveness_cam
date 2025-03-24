@@ -12,14 +12,18 @@ class LivenessCam {
     try {
       if (Platform.isAndroid) {
         var result = await _methodChannel.invokeMethod("start");
-        if ("$result" != "null" && "$result" != "") {
+        if (result != null && "$result" != "null" && "$result" != "") {
           return File("$result".replaceAll("file:/", ""));
+        } else {
+          return null;
         }
       } else if (Platform.isIOS) {
         var result = await Navigator.push(context,
             MaterialPageRoute(builder: (context) => const CameraPage()));
         if (result != null) {
           return result as File;
+        } else {
+          return null;
         }
       } else {
         return null;

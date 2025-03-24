@@ -73,7 +73,9 @@ class LivenessCamPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, Plugin
           val livenessResult = Identifier.getLivenessResult(data)
           livenessResult?.let { res ->
             if (res.isSuccess) {
-               result.success("${res.detectionResult?.get(0)?.image}")
+              result.success("${res.detectionResult?.get(0)?.image}")
+            } else {
+              result.success(null)
             }
           }
         }
