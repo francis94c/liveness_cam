@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'camerapage.dart';
+import 'camera_page.dart';
 
 class LivenessCam {
   final _methodChannel = const MethodChannel('liveness_cam');
