@@ -198,12 +198,12 @@ class LivenessDetectionAnalyzer(
             }
             detectionResults.add(LivenessResult.DetectionResult(it, fileUri, startDetectionTime?.let { time -> System.currentTimeMillis()-time }))
         }
-        queueDetectionMode.removeFirst()
+        queueDetectionMode.removeAt(0)
         if (queueDetectionMode.isEmpty()) {
                 listener.onLiveDetectionSuccess(
                     LivenessResult(
                         true,
-                        "Sucess",
+                        "Success",
                         System.currentTimeMillis() - startTimeMilis,
                         detectionResults ))
         } else {
