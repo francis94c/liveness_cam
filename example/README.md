@@ -1,6 +1,6 @@
-# liveness_cam_example
+# example
 
-Demonstrates how to use the liveness_cam plugin.
+A new Flutter project.
 
 ## Getting Started
 
