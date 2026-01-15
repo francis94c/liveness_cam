@@ -136,12 +136,12 @@ class _CameraPageState extends State<CameraPage> {
             final mouthOpenValue = _detectMouthOpen(face);
 
             // Track if mouth was closed
-            if (mouthOpenValue < 0.2) {
+            if (mouthOpenValue < 0.85) {
               _mouthWasClosed = true;
             }
             // Detect mouth open after being closed
             if (_mouthWasClosed &&
-                mouthOpenValue > 0.4 &&
+                mouthOpenValue > 0.95 &&
                 !_mouthOpenDetected) {
               _mouthOpenDetected = true;
               _currentGestureStep = 2;
