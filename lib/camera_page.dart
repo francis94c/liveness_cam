@@ -150,8 +150,7 @@ class _CameraPageState extends State<CameraPage> {
               }
             } else if (!_mouthOpenDetected) {
               if (mounted) {
-                setState(() => _status =
-                    'Open your mouth wide 👄 (${(mouthOpenValue * 100).toInt()}%)');
+                setState(() => _status = 'Open your mouth wide 👄');
               }
             }
           }
@@ -204,11 +203,6 @@ class _CameraPageState extends State<CameraPage> {
   /// Detects mouth opening by analyzing the distance between nose and bottom mouth landmarks
   /// Returns a value between 0 (closed) and 1 (open)
   double _detectMouthOpen(Face face) {
-    // Debug: Log available landmarks
-    if (_currentGestureStep == 1) {
-      print('Available landmarks: ${face.landmarks.keys.toList()}');
-    }
-
     // Get mouth and nose landmarks if available
     final noseBase = face.landmarks[FaceLandmarkType.noseBase];
     final bottomMouth = face.landmarks[FaceLandmarkType.bottomMouth];
