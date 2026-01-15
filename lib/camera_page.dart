@@ -209,26 +209,49 @@ class _CameraPageState extends State<CameraPage> {
     final leftMouth = face.landmarks[FaceLandmarkType.leftMouth];
     final rightMouth = face.landmarks[FaceLandmarkType.rightMouth];
 
-    if (noseBase != null && bottomMouth != null) {
+    if (noseBase != null &&
+        bottomMouth != null &&
+        leftMouth != null &&
+        rightMouth != null) {
       // Calculate vertical distance between nose base and bottom mouth
       final verticalDistance =
-          (bottomMouth.position.y - noseBase.position.y).abs();
+          (bottomMouth.position.y - noseBase.position.y).abs().toDouble();
 
       // Calculate mouth width for normalization
-      double mouthWidth = 100.0; // default
-      if (leftMouth != null && rightMouth != null) {
-        mouthWidth =
-            (rightMouth.position.x - leftMouth.position.x).abs().toDouble();
-      }
+      final mouthWidth =
+          (rightMouth.position.x - leftMouth.position.x).abs().toDouble();
 
-      // Normalize the distance relative to mouth width
-      // Typical ratio: closed ~0.6-0.8, open ~1.0-1.4
-      final ratio = verticalDistance / mouthWidth;
-      final normalized = (ratio - 0.6) / 0.6; // Map 0.6-1.2 to 0-1
-      return normalized.clamp(0.0, 1.0);
+      if (mouthWidth > 0) {
+        // Normalize the distance relative to mouth width
+        // Typical ratio: closed ~0.5-0.7, open ~0.9-1.2
+        final ratio = verticalDistance / mouthWidth;
+        final normalized = (ratio - 0.5) / 0.5; // Map 0.5-1.0 to 0-1
+        return normalized.clamp(0.0, 1.0);
+      }
     }
 
-    // Fallback: no landmarks available
+    // Fallback: Try using face bounds height as proxy
+    final bounds = face.boundingBox;
+    final leftEye = face.landmarks[FaceLandmarkType.leftEye];
+    final rightEye = face.landmarks[FaceLandmarkType.rightEye];
+
+    if (leftEye != null && rightEye != null && bottomMouth != null) {
+      // Calculate eye-to-mouth distance
+      final eyeCenterY = (leftEye.position.y + rightEye.position.y) / 2;
+      final eyeToMouthDistance =
+          (bottomMouth.position.y - eyeCenterY).abs().toDouble();
+
+      // Normalize by face height
+      final faceHeight = bounds.height.toDouble();
+      if (faceHeight > 0) {
+        final ratio = eyeToMouthDistance / faceHeight;
+        // Typical ratio: closed ~0.4-0.45, open ~0.5-0.55
+        final normalized = (ratio - 0.4) / 0.15; // Map 0.4-0.55 to 0-1
+        return normalized.clamp(0.0, 1.0);
+      }
+    }
+
+    // No landmarks available
     return 0.0;
   }
 
