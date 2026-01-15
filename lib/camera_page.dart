@@ -52,6 +52,7 @@ class _CameraPageState extends State<CameraPage> {
     _faceDetector = FaceDetector(
       options: FaceDetectorOptions(
         enableClassification: true, // for smile & eye open detection
+        enableLandmarks: true, // for mouth, nose, eye landmarks
         enableTracking: false,
       ),
     );
