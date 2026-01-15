@@ -135,12 +135,12 @@ class _CameraPageState extends State<CameraPage> {
             final mouthOpenValue = _detectMouthOpen(face);
 
             // Track if mouth was closed
-            if (mouthOpenValue < 0.3) {
+            if (mouthOpenValue < 0.2) {
               _mouthWasClosed = true;
             }
             // Detect mouth open after being closed
             if (_mouthWasClosed &&
-                mouthOpenValue > 0.6 &&
+                mouthOpenValue > 0.4 &&
                 !_mouthOpenDetected) {
               _mouthOpenDetected = true;
               _currentGestureStep = 2;
@@ -149,7 +149,8 @@ class _CameraPageState extends State<CameraPage> {
               }
             } else if (!_mouthOpenDetected) {
               if (mounted) {
-                setState(() => _status = 'Open your mouth wide 👄');
+                setState(() => _status =
+                    'Open your mouth wide 👄 (${(mouthOpenValue * 100).toInt()}%)');
               }
             }
           }
