@@ -14,7 +14,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final _livenessCam = LivenessCam();
+  late final _livenessCam = LivenessCam();
 
   File? result;
 
@@ -27,18 +27,15 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Liveness Cam'),
-        ),
+        appBar: AppBar(title: const Text('Liveness Cam')),
         body: Center(
           child: Column(
             children: [
               result != null ? Image.file(result!) : Container(),
-              const SizedBox(
-                height: 20,
-              ),
-              Builder(builder: (context) {
-                return ElevatedButton(
+              const SizedBox(height: 20),
+              Builder(
+                builder: (context) {
+                  return ElevatedButton(
                     onPressed: () {
                       _livenessCam.start(context).then((value) {
                         if (value != null) {
@@ -48,11 +45,10 @@ class _MyAppState extends State<MyApp> {
                         }
                       });
                     },
-                    child: const Text(
-                      "Start",
-                      style: TextStyle(fontSize: 19),
-                    ));
-              })
+                    child: const Text("Start", style: TextStyle(fontSize: 19)),
+                  );
+                },
+              ),
             ],
           ),
         ),
