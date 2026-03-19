@@ -380,8 +380,8 @@ class FaceOutlinePainter extends CustomPainter {
     final centerX = size.width / 2;
     final centerY = size.height / 2;
 
-    // Calculate proportional sizes
-    final faceWidth = size.width * 0.65;
+    // Calculate proportional sizes (smaller for closer positioning)
+    final faceWidth = size.width * 0.50;
     final faceHeight = faceWidth * 1.3; // Face is taller than wide
     final shoulderWidth = faceWidth * 1.8;
     final shoulderHeight = faceHeight * 0.4;
